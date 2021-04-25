@@ -9,13 +9,22 @@ import {
     Dimensions,
     View
 } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 import wateringImg from '../assets/watering.png';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export function Welcome(){
+    const navigation = useNavigation();
+
+
+    function handleStart() {
+        navigation.navigate('UserIdentification')
+    };
+
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -40,6 +49,7 @@ export function Welcome(){
                 <TouchableOpacity 
                     style={styles.button} 
                     activeOpacity={0.7}
+                    onPress={handleStart}
                 >
                     
                     <Feather 
