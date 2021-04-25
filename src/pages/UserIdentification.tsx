@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     SafeAreaView, 
     StatusBar, 
@@ -16,6 +16,24 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export function UserIdentification(){
+    const [isFocused, setIsFocused] = useState(false);
+    const [isFilled, setIsFilled] = useState(false);
+    const [name, setName] = useState<string>();
+
+    function handleInputBlur() {
+        setIsFocused(false);
+        setIsFilled(!!name);
+    };
+
+    function handleInputFocus() {
+        setIsFocused(true);
+    };
+
+    function handleInputChange(value: string){
+        setIsFilled(!!value);
+        setName(value)
+    };
+
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -28,7 +46,9 @@ export function UserIdentification(){
                 <View style={styles.content}>
                     <View style={styles.form}>
                         <View style={styles.header}>
-                            <Text style={styles.emoji}>😀</Text>
+                            <Text style={styles.emoji}>
+                                { isFilled ? '😄' : '😀' }
+                            </Text>
 
                             <Text style={styles.title}>
                                 Como podemos {'\n'}
@@ -37,8 +57,14 @@ export function UserIdentification(){
                         </View>
 
                         <TextInput 
-                            style={styles.input} 
-                            placeholder={'Digite seu nome'} 
+                            style={[
+                                styles.input,
+                                (isFocused || isFilled) && { borderColor: colors.green }
+                            ]} 
+                            placeholder="Digite seu nome"
+                            onBlur={handleInputBlur}
+                            onFocus={handleInputFocus}
+                            onChangeText={handleInputChange}
                         />
 
                         <View style={styles.footer}>
